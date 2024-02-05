@@ -1,0 +1,27 @@
+---
+- name: 웹서버 설치
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Download index.html
+      get_url:
+        url: https://www.nginx.com
+        dest: /var/www/html/index.html
+
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Stop and disable ufw service
+      service:
+        name: ufw
+        state: stopped
+        enabled: false
