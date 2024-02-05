@@ -9,6 +9,11 @@
         name: python3-apt
         state: present
 
+    - name: Install apt
+      apt:
+        name: apt
+        state: present
+
     - name: Install Nginx
       apt:
         name: nginx
