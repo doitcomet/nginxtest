@@ -1,37 +1,8 @@
 ---
-- name: 웹서버 설치
-  hosts: localhost
+- name: nginx 배포하기
+  hosts: all
   become: yes
-
+  
   tasks:
-    - name: Install python3-apt
-      apt:
-        name: python3-apt
-        state: present
-
-    - name: Install apt
-      apt:
-        name: apt
-        state: present
-
-    - name: Install Nginx
-      apt:
-        name: nginx
-        state: present
-
-    - name: Download index.html
-      get_url:
-        url: https://www.nginx.com
-        dest: /var/www/html/index.html
-
-    - name: Start Nginx service
-      service:
-        name: nginx
-        state: started
-        enabled: true
-
-    - name: Stop and disable ufw service
-      service:
-        name: ufw
-        state: stopped
-        enabled: false
+    - name: nginx
+      shell: docker service create --name mynginx --replicas 3 --constraint node.role==worker --with-registry-auth -p 8008:80 nginx 
